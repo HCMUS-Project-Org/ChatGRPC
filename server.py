@@ -1,24 +1,39 @@
-import service.chat_service_pb2_grpc
-import service.chat_service_pb2
 import grpc
+import time
 from concurrent import futures
 
-
-class MyService(my_service_pb2_grpc.CalculatorServiceServicer):
-    def my_method(self, request, context):
-        # handle incoming request
-        response = my_service_pb2.MyResponse()
-        # create and return response
+import service.chat_pb2 as chat_pb2
+import service.chat_pb2_grpc as chat_pb2_grpc
 
 
-def server():
+class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
+    def __init__(self):
+        self.messages = []
+
+    def SendMessage(self, request, context):
+        message = chat_pb2.Message(
+            user_name=request.user_name, text=request.text)
+        self.messages.append(message)
+        return message
+
+    def ReceiveMessage(self, request, context):
+        for message in self.messages:
+            yield message
+
+
+def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    my_service_pb2_grpc.add_CalculatorServiceServicer_to_server(
-        MyService(), server)
+    chat_pb2_grpc.add_ChatServiceServicer_to_server(
+        ChatServiceServicer(), server)
     server.add_insecure_port('[::]:50051')
     server.start()
-    server.wait_for_termination()
+    print("Server started")
+    try:
+        while True:
+            time.sleep(86400)
+    except KeyboardInterrupt:
+        server.stop(0)
 
 
 if __name__ == '__main__':
-    server()
+    serve()

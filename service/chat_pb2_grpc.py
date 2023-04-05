@@ -2,8 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
-from service import chat_service_pb2 as service_dot_chat__service__pb2
+from service import chat_pb2 as service_dot_chat__pb2
 
 
 class ChatServiceStub(object):
@@ -16,14 +15,14 @@ class ChatServiceStub(object):
             channel: A grpc.Channel.
         """
         self.SendMessage = channel.unary_unary(
-                '/chat.ChatService/SendMessage',
-                request_serializer=service_dot_chat__service__pb2.Message.SerializeToString,
-                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                '/ChatService/SendMessage',
+                request_serializer=service_dot_chat__pb2.Message.SerializeToString,
+                response_deserializer=service_dot_chat__pb2.Message.FromString,
                 )
         self.ReceiveMessage = channel.unary_stream(
-                '/chat.ChatService/ReceiveMessage',
-                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-                response_deserializer=service_dot_chat__service__pb2.Message.FromString,
+                '/ChatService/ReceiveMessage',
+                request_serializer=service_dot_chat__pb2.Empty.SerializeToString,
+                response_deserializer=service_dot_chat__pb2.Message.FromString,
                 )
 
 
@@ -47,17 +46,17 @@ def add_ChatServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'SendMessage': grpc.unary_unary_rpc_method_handler(
                     servicer.SendMessage,
-                    request_deserializer=service_dot_chat__service__pb2.Message.FromString,
-                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                    request_deserializer=service_dot_chat__pb2.Message.FromString,
+                    response_serializer=service_dot_chat__pb2.Message.SerializeToString,
             ),
             'ReceiveMessage': grpc.unary_stream_rpc_method_handler(
                     servicer.ReceiveMessage,
-                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
-                    response_serializer=service_dot_chat__service__pb2.Message.SerializeToString,
+                    request_deserializer=service_dot_chat__pb2.Empty.FromString,
+                    response_serializer=service_dot_chat__pb2.Message.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'chat.ChatService', rpc_method_handlers)
+            'ChatService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
@@ -76,9 +75,9 @@ class ChatService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/chat.ChatService/SendMessage',
-            service_dot_chat__service__pb2.Message.SerializeToString,
-            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+        return grpc.experimental.unary_unary(request, target, '/ChatService/SendMessage',
+            service_dot_chat__pb2.Message.SerializeToString,
+            service_dot_chat__pb2.Message.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -93,8 +92,8 @@ class ChatService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/chat.ChatService/ReceiveMessage',
-            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-            service_dot_chat__service__pb2.Message.FromString,
+        return grpc.experimental.unary_stream(request, target, '/ChatService/ReceiveMessage',
+            service_dot_chat__pb2.Empty.SerializeToString,
+            service_dot_chat__pb2.Message.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
