@@ -6,8 +6,14 @@ service ChatService {
 }
 
 message Message {
-    string user_name = 1;
-    string text = 2;
+    User user = 1;
+    string msg = 2;
+    string time = 3;
+}
+
+message User {
+    string id = 1;
+    string name = 2;
 }
 
 message Empty {}
