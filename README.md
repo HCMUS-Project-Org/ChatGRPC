@@ -73,5 +73,26 @@ You can find this reference here: https://grpc.io/docs/what-is-grpc/introduction
 
 > **LIKE reply**: for allow user XX to continue chat (at least 2 LIKE)
 
-**Send message with syntax**: `LIKE_<user_id>`  
+**Syntax**: `LIKE_<user_id>`  
+**Rule**:
+
+-  Only LIKE once per user
+-  Can not LIKE your self
+
 **Example**: LIKE_01
+
+### Exception
+
+**Syntax**: `[<type>] <content>_<user_id>`  
+**Program exception:**
+
+-  [WARNING] You can not LIKE yourself\_`<from_user>`!
+-  [WARNING] You only LIKED: [`<user_id>`]'s message ONCE!\_`<from_user>`
+-  [WARNING] You are NOT allowed to send message\_`<from_user>`
+-  [INFO] You LIKED: [`<user_id>`]'s message\_`<from_user>`
+
+## Log
+
+### Client
+
+### Server

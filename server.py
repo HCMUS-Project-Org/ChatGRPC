@@ -68,8 +68,14 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
             from_user = "_" + from_user
             raise grpc.RpcError(error_msg + from_user)
 
+        if from_user in self.allow_users[int(user_id)]["like_from"]:
+            error_msg = "[WARNING] You only LIKED: [" + \
+                user_id + "]'s message ONCE!"
+            from_user = "_" + from_user
+            raise grpc.RpcError(error_msg + from_user)
+
         for user in self.allow_users:
-            if user_id == user['user_id'] and from_user not in self.allow_users[int(user_id)]["like_from"]:
+            if user_id == user['user_id']:
                 self.allow_users[int(user_id)]['like_count'] += 1
                 self.allow_users[int(user_id)]['like_from'].append(from_user)
                 if self.allow_users[int(user_id)]['like_count'] >= 2:
@@ -82,7 +88,12 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
         print("    is_allow: ", self.allow_users[int(user_id)]["is_allow"])
         print("  }")
 
+        error_msg = "[INFO] You LIKED: ["+user_id + "]'s message"
+        from_user = "_" + from_user
+        raise grpc.RpcError(error_msg + from_user)
+
     def SendMessage(self, request, context):
+        # TODO: change LOG
         '''
         --- PSEUDO CODE ---
         if LIKE msg:

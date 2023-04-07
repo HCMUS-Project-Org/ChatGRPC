@@ -71,6 +71,7 @@ def run():
                 continue
 
             print('---------------------------------------------')
+            # TODO: continues update msg
 
 
 if __name__ == '__main__':
