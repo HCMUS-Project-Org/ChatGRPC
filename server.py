@@ -35,8 +35,10 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
         current_time = datetime.datetime.now()
         formatted_time = current_time.strftime("%H:%M:%S")
 
+        # generate new user id
         new_id = self.GenerateUserId()
         request.id = new_id
+
         new_user = {"user_id": new_id, 'like_count': 0,
                     'like_from': [], 'is_allow': True}
 
@@ -82,6 +84,8 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
                 self.allow_users[int(user_id)]['like_from'].append(from_user)
                 if self.allow_users[int(user_id)]['like_count'] >= 2:
                     self.allow_users[int(user_id)]['is_allow'] = True
+                    log = "[" + time + "] User[" + user_id + \
+                        "] is ALLOWED to send message"
 
         error_msg = "[INFO] You LIKED: ["+user_id + "]'s message"
         from_user = "_" + from_user
@@ -92,14 +96,13 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
             # if LIKE msg, still allow this user send msg
             self.HandleLikeMessage(request.time, request.msg, request.user.id)
         else:
-            log = ''
             # if user is allowed to send message
             if self.allow_users[int(request.user.id)]['is_allow']:
-                # print("[CHECK] Is ALLOW send msg: True")
-                # print("[", request.time, "] [", request.user.id, "] ", request.user.name,
-                #       " send message '", request.msg, "'", sep="")
                 log = "[" + request.time + "] User[" + \
                     request.user.id + "] send message '" + request.msg + "'"
+                self.Log(log)
+                log = "[" + request.time + "] User[" + \
+                    request.user.id + "] is BLOCKED to send message"
                 self.Log(log)
 
                 # add message
@@ -107,11 +110,9 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
 
                 # reset user state
                 self.allow_users[int(request.user.id)]['like_count'] = 0
+                self.allow_users[int(request.user.id)]['like_from'] = []
                 self.allow_users[int(request.user.id)]['is_allow'] = False
             else:
-                # print("[CHECK] Is ALLOW send msg: False")
-                # print("[", request.time, "] [", request.user.id, "] ", request.user.name,
-                #       " is not allow to send message", sep="")
                 log = "[" + request.time + "] User[" + request.user.id + \
                     "] is not allow to send message"
                 self.Log(log)
@@ -126,6 +127,8 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
         # while True:
         for message in self.messages:
             yield message
+
+# TODO: log file theem "Block send message", "Allow to send message"
 
 
 def serve():
