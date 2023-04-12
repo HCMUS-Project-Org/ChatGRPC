@@ -8,6 +8,7 @@ import service.chat_pb2_grpc as chat_pb2_grpc
 
 class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
     def __init__(self):
+        self.clients = set()
         self.messages = []
         self.allow_users = [
             {"user_id": "00", "like_count": 0, "like_from": [], "is_allow": True}]
@@ -110,6 +111,13 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
         '''
 
         print('--------- Server - Send Request ---------------------')
+        # print("request:", request)
+        # self.clients.add(context)
+        # print("Clients: ", self.clients)
+
+        # for client in self.clients:
+        #     client.ClearScreen()
+
         # if request of new user (dont have id)
         if not request.user.id:
             print("[CHECK] Is NEW user: True")
@@ -129,7 +137,7 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
 
                 # reset user state
                 self.allow_users[int(request.user.id)]['like_count'] = 0
-                self.allow_users[int(request.user.id)]['is_allow'] = False
+                # self.allow_users[int(request.user.id)]['is_allow'] = False
             else:
                 print("[CHECK] Is ALLOW send msg: False")
                 error_msg = "[WARNING] You are NOT allowed to send message"

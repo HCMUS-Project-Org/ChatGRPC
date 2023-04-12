@@ -5,40 +5,44 @@ import service.chat_pb2_grpc as chat_pb2_grpc
 import datetime
 
 
-def IsLikeMessage(msg):
-    msg_components = msg.split('_')
-    if len(msg_components) == 2 and msg_components[0] == 'LIKE' and msg_components[1].isdigit():
-        return True
-    return False
+class Client:
+    def __init__(self):
+        # Create a gRPC channel
+        self.channel = grpc.insecure_channel('localhost:50051')
 
-
-def ClearScreen():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-
-def ShowMessage(stub):
-    # receive all msg from server
-    messages = stub.ReceiveMessage(chat_pb2.Empty())
-    for message in messages:
-        if not IsLikeMessage(message.msg):
-            print(
-                f"[{message.time}][{message.user.id}] {message.user.name}: {message.msg}")
-
-
-def run():
-    with grpc.insecure_channel('localhost:50051') as channel:
-        stub = chat_pb2_grpc.ChatServiceStub(channel)
+        # Create a stub for the service
+        self.stub = chat_pb2_grpc.ChatServiceStub(self.channel)
 
         # Do not specify the user ID, it will be assigned by the server
-        user_name = input("Enter your name: ")
-        user = chat_pb2.User(name=user_name)
+        self.user_name = input("Enter your name: ")
+        self.user = chat_pb2.User(name=self.user_name)
 
+    def IsLikeMessage(self, msg):
+        msg_components = msg.split('_')
+        if len(msg_components) == 2 and msg_components[0] == 'LIKE' and msg_components[1].isdigit():
+            return True
+        return False
+
+    def ClearScreen(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
+
+    def ShowMessage(self):
+        print("show")
+        # receive all msg from server
+        messages = self.stub.ReceiveMessage(chat_pb2.Empty())
+        for message in messages:
+            if not self.IsLikeMessage(message.msg):
+                print(
+                    f"[{message.time}][{message.user.id}] {message.user.name}: {message.msg}")
+
+    def run(self):
         while True:
             try:
                 msg = input("Enter your message: ")
 
-                ClearScreen()
-                print(f"Enter your name: {user_name}")
+                self.ClearScreen()
+
+                print(f"Enter your name: {self.user_name}")
                 print("-------------- CHAT BOX - gRPC --------------")
 
                 # get current time
@@ -47,25 +51,25 @@ def run():
 
                 # send msg to server
                 message = chat_pb2.Message(
-                    user=user, msg=msg, time=formatted_time)
-                response = stub.SendMessage(message)
+                    user=self.user, msg=msg, time=formatted_time)
+                response = self.stub.SendMessage(message)
 
                 # update user id if it is not set
-                if not user.id:
-                    user.id = response.user.id
+                if not self.user.id:
+                    self.user.id = response.user.id
                 # print("[Client - Response(SendMsg)]: ", response)
 
-                ShowMessage(stub)
+                self.ShowMessage()
             except grpc.RpcError as e:
                 error_details = e.details().strip("Exception calling application: ")
 
                 error = error_details.split("_")[0]
                 id = error_details.split("_")[1]
                 # update user id if it is not set
-                if not user.id:
-                    user.id = id
+                if not self.user.id:
+                    self.user.id = id
 
-                ShowMessage(stub)
+                self.ShowMessage()
                 print('---------------------------------------------')
                 print(error)
                 continue
@@ -75,4 +79,5 @@ def run():
 
 
 if __name__ == '__main__':
-    run()
+    client = Client()
+    client.run()
