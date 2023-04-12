@@ -95,28 +95,8 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
 
     def SendMessage(self, request, context):
         # TODO: change LOG
-        '''
-        --- PSEUDO CODE ---
-        if LIKE msg:
-            user[i].like_count += 1
-            if user[i].like_count >= 2:
-                user[i].is_allow = True
-        else:
-            if user[i].is_allow == True:
-                Send message
-                user[i].like_count = 0
-                user[i].is_allow = False
-            else:
-                return "You are not allowed to send message"
-        '''
 
         print('--------- Server - Send Request ---------------------')
-        # print("request:", request)
-        # self.clients.add(context)
-        # print("Clients: ", self.clients)
-
-        # for client in self.clients:
-        #     client.ClearScreen()
 
         # if request of new user (dont have id)
         if not request.user.id:
