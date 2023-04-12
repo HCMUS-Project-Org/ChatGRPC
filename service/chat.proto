@@ -3,6 +3,7 @@ syntax = "proto3";
 service ChatService {
     rpc SendMessage(Message) returns (Message) {}
     rpc ReceiveMessage(Empty) returns (stream Message) {}
+    rpc CreateNewUser(User) returns (User) {}
 }
 
 message Message {

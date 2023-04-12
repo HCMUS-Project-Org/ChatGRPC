@@ -1,3 +1,4 @@
+import datetime
 import grpc
 import time
 from concurrent import futures
@@ -25,11 +26,15 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
 
         return new_id
 
-    def CreateNewUser(self, request):
-        print("[", request.time, "] ", request.user.name,
+    def CreateNewUser(self, request, context):
+        current_time = datetime.datetime.now()
+        formatted_time = current_time.strftime("%H:%M:%S")
+
+        print("[", formatted_time, "] ", request.name,
               " join group chat", end=" ", sep="")
 
         new_id = self.GenerateUserId()
+        request.id = new_id
         new_user = {"user_id": new_id, 'like_count': 0,
                     'like_from': [], 'is_allow': True}
 
@@ -37,7 +42,7 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
         self.allow_users.append(new_user)
         print("- ID(", new_id, ")", sep="")
 
-        return new_id
+        return request
 
     def IsLikeMessage(self, msg):
         msg_components = msg.split('_')
@@ -77,10 +82,6 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
         raise grpc.RpcError(error_msg + from_user)
 
     def SendMessage(self, request, context):
-        # if request of new user (dont have id)
-        if not request.user.id:
-            request.user.id = self.CreateNewUser(request)
-
         if self.IsLikeMessage(request.msg):
             # if LIKE msg, still allow this user send msg
             self.HandleLikeMessage(request.time, request.msg, request.user.id)

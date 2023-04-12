@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12service/chat.proto\"9\n\x07Message\x12\x13\n\x04user\x18\x01 \x01(\x0b\x32\x05.User\x12\x0b\n\x03msg\x18\x02 \x01(\t\x12\x0c\n\x04time\x18\x03 \x01(\t\" \n\x04User\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\"\x07\n\x05\x45mpty2Z\n\x0b\x43hatService\x12#\n\x0bSendMessage\x12\x08.Message\x1a\x08.Message\"\x00\x12&\n\x0eReceiveMessage\x12\x06.Empty\x1a\x08.Message\"\x00\x30\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12service/chat.proto\"9\n\x07Message\x12\x13\n\x04user\x18\x01 \x01(\x0b\x32\x05.User\x12\x0b\n\x03msg\x18\x02 \x01(\t\x12\x0c\n\x04time\x18\x03 \x01(\t\" \n\x04User\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\"\x07\n\x05\x45mpty2{\n\x0b\x43hatService\x12#\n\x0bSendMessage\x12\x08.Message\x1a\x08.Message\"\x00\x12&\n\x0eReceiveMessage\x12\x06.Empty\x1a\x08.Message\"\x00\x30\x01\x12\x1f\n\rCreateNewUser\x12\x05.User\x1a\x05.User\"\x00\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'service.chat_pb2', globals())
@@ -27,5 +27,5 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _EMPTY._serialized_start=115
   _EMPTY._serialized_end=122
   _CHATSERVICE._serialized_start=124
-  _CHATSERVICE._serialized_end=214
+  _CHATSERVICE._serialized_end=247
 # @@protoc_insertion_point(module_scope)

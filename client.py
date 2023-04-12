@@ -18,6 +18,7 @@ class ChatClient:
         # Do not specify the user ID, it will be assigned by the server
         self.user_name = input("Enter your name: ")
         self.user = chat_pb2.User(name=self.user_name)
+        self.user = self.stub.CreateNewUser(self.user)
         self.number_msg = 0
 
     def IsLikeMessage(self, msg):
