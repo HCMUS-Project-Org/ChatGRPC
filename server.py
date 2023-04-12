@@ -117,7 +117,7 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
 
                 # reset user state
                 self.allow_users[int(request.user.id)]['like_count'] = 0
-                # self.allow_users[int(request.user.id)]['is_allow'] = False
+                self.allow_users[int(request.user.id)]['is_allow'] = False
             else:
                 print("[CHECK] Is ALLOW send msg: False")
                 error_msg = "[WARNING] You are NOT allowed to send message"

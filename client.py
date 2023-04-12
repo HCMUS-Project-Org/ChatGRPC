@@ -29,7 +29,12 @@ class ChatClient:
     def ClearScreen(self):
         os.system('cls' if os.name == 'nt' else 'clear')
 
-    def ShowMessage(self):
+    def ShowMessageWithError(self, error):
+        self.ClearScreen()
+
+        print(f"WELCOME {self.user_name}!")
+        print("-------------- CHAT BOX - gRPC --------------")
+
         # receive all msg from server
         messages = self.stub.ReceiveMessage(chat_pb2.Empty())
 
@@ -38,7 +43,37 @@ class ChatClient:
                 print(
                     f"[{message.time}][{message.user.id}] {message.user.name}: {message.msg}")
 
+        print("----------------------------------------------")
+        print(error)
+        print("----------------------------------------------")
+
+        print("Enter your message: ")
+
+    def ShowMessage(self):
+        messages = self.stub.ReceiveMessage(chat_pb2.Empty())
+        len_msg = len(list(messages))
+
+        if int(self.number_msg) != int(len_msg):
+            self.number_msg = len_msg
+
+            self.ClearScreen()
+
+            print(f"WELCOME {self.user_name}!")
+            print("-------------- CHAT BOX - gRPC --------------")
+
+            # receive all msg from server
+            messages = self.stub.ReceiveMessage(chat_pb2.Empty())
+
+            for message in messages:
+                if not self.IsLikeMessage(message.msg):
+                    print(
+                        f"[{message.time}][{message.user.id}] {message.user.name}: {message.msg}")
+
+            print("----------------------------------------------")
+            print("Enter your message: ")
+
     def InputAndSendMsg(self):
+        print("Enter your message: ", end="")
         while True:
             try:
                 msg = input()
@@ -60,32 +95,17 @@ class ChatClient:
 
                 error = error_details.split("_")[0]
                 id = error_details.split("_")[1]
+
                 # update user id if it is not set
                 if not self.user.id:
                     self.user.id = id
 
-                print('---------------------------------------------')
-                print(error)
-
-            print('---------------------------------------------')
+                self.ShowMessageWithError(error)
 
     def run(self):
         threading.Thread(target=self.InputAndSendMsg, args=()).start()
         while True:
-            messages = self.stub.ReceiveMessage(chat_pb2.Empty())
-            len_msg = len(list(messages))
-
-            if int(self.number_msg) != int(len_msg):
-                self.number_msg = len_msg
-
-                self.ClearScreen()
-
-                print(f"WELCOME {self.user_name}!")
-                print("-------------- CHAT BOX - gRPC --------------")
-
-                self.ShowMessage()
-                print("----------------------------------------------")
-                print("Enter your message: ")
+            self.ShowMessage()
 
 
 if __name__ == '__main__':
