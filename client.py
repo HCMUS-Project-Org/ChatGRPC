@@ -32,7 +32,7 @@ class ChatClient:
     def ShowMessageWithError(self, error):
         self.ClearScreen()
 
-        print(f"WELCOME {self.user_name}!")
+        print(f"WELCOME {self.user_name}! - your ID is {self.user.id}\n")
         print("-------------- CHAT BOX - gRPC --------------")
 
         # receive all msg from server
@@ -58,7 +58,7 @@ class ChatClient:
 
             self.ClearScreen()
 
-            print(f"WELCOME {self.user_name}!")
+            print(f"WELCOME {self.user_name}! - your ID is {self.user.id}\n")
             print("-------------- CHAT BOX - gRPC --------------")
 
             # receive all msg from server
