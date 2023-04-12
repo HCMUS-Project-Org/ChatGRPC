@@ -16,7 +16,7 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
         self.max_user_id = 0
 
     def Log(self, content):
-        with open("log.log", "a") as f:
+        with open("logfile.log", "a") as f:
             f.write(content + '\n')
             print(content)
 
