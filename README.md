@@ -1,7 +1,7 @@
 <h1 align="center">
   <img src="./assets/grpc-icon.png" alt="icon" width="200"></img>
   <br>
-  <b>README template</b>
+  <b>Chat gRPC</b>
 </h1>
 
 <p align="center">Chat application use gRPC to communicate between processes.</p>
@@ -23,9 +23,6 @@
   <a href="https://github.com/HCMUS-Project/ChatGRPC/issues/">
     <img src="https://img.shields.io/github/issues/HCMUS-Project/ChatGRPC" alt="open issues" />
   </a>
-  <a href="https://github.com/HCMUS-Project/ChatGRPC/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/HCMUS-Project/ChatGRPC.svg" alt="license" />
-  </a>
 </p>
 
 <p align="center">
@@ -44,7 +41,6 @@
 
 -  [Demo](#film_projector-demo)
 -  [Report](#newspaper-report)
--  [Key Features](#star-key-features)
 -  [Getting Started](#toolbox-getting-started)
    -  [Prerequisites](#pushpin-prerequisites)
    -  [How to use gRPC](#mechanical_arm-how-to-use-grpc)
@@ -67,12 +63,7 @@ Check out the [**demo video**](https://youtu.be/j3ZhaS5n7hU) to see the app in a
 
 # :newspaper: Report
 
-Check out the [**Report**](https://docs.google.com/document/d/1XG1qBbMOVZpRwFrU5hV9Z66X6tNGrkkXGsKeIZU_Ns8/edit?usp=sharing) to see full report.
-
-# :star: Key Features
-
--  Template - professional README, [Release](./Release.md) templates
--  Theme - nice theme for README
+Check out the [**report**](https://docs.google.com/document/d/1XG1qBbMOVZpRwFrU5hV9Z66X6tNGrkkXGsKeIZU_Ns8/edit?usp=sharing) to see full report.
 
 # :toolbox: Getting Started
 
