@@ -44,16 +44,15 @@
 -  [Getting Started](#toolbox-getting-started)
    -  [Prerequisites](#pushpin-prerequisites)
    -  [How to use gRPC](#mechanical_arm-how-to-use-grpc)
-   -  [Programming design](#pencil-programming-design)
+   -  [Installation](#hammer_and_wrench-installation)
    -  [Chat Convention](#speech_balloon-chat-convention)
       -  [LIKE reply](#like-reply)
       -  [Exception](#exception)
-   -  [Installation](#hammer_and_wrench-installation)
    -  [Log](#page_facing_up-log)
       -  [Log file](#log-file)
       -  [Content](#content)
 -  [Roadmap](#world_map-roadmap)
--  [Contributors](#busts_in_silhouette-contributors)
+-  [silhouette: Contributors](#busts_in_silhouette-contributors)
 -  [Credits](#sparkles-credits)
 -  [License](#scroll-license)
 
@@ -133,38 +132,6 @@ Check out the [**report**](https://docs.google.com/document/d/1XG1qBbMOVZpRwFrU5
 
 6. Use gRPC's built-in functionality to handle the communication between the server and client processes.
 
-## :pencil: Programming design
-
-> Follow way 1: _"Dùng 1 server chung, mỗi tiến trình người dùng gửi msg vềserverrồi server broadcast lại msg nàycho tất cảngười dùng còn lại"_
->
-> "gRPC uses a request/response model, where a client sends a request to a server and receives a response back. This means that gRPC can be used to implement bi-directional communication between clients and servers where the client sends a message to the server and waits for a response. The server can then broadcast the message to all connected clients."
-
-You can find this reference here: https://grpc.io/docs/what-is-grpc/introduction/
-
-## :speech_balloon: Chat Convention
-
-### LIKE reply
-
-> **LIKE reply**: for allow user XX to continue chat (at least 2 LIKE)
-
-**Syntax**: `LIKE_<user_id>`  
-**Rule**:
-
--  Only LIKE once per user
--  Can not LIKE your self
-
-**Example**: LIKE_01
-
-### Exception
-
-**Syntax**: `[<type>] <content>_<user_id>`  
-**Program exception:**
-
--  [WARNING] You can not LIKE yourself\_`<from_user>`!
--  [WARNING] You only LIKED: [`<user_id>`]'s message ONCE!\_`<from_user>`
--  [WARNING] You are NOT allowed to send message\_`<from_user>`
--  [INFO] You LIKED: [`<user_id>`]'s message\_`<from_user>`
-
 ## :hammer_and_wrench: Installation
 
 Install application
@@ -191,6 +158,30 @@ python client.py
 
 > **Note**
 > If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
+
+## :speech_balloon: Chat Convention
+
+### LIKE reply
+
+> **LIKE reply**: for allow user XX to continue chat (at least 2 LIKE)
+
+**Syntax**: `LIKE_<user_id>`  
+**Rule**:
+
+-  Only LIKE once per user
+-  Can not LIKE your self
+
+**Example**: LIKE_01
+
+### Exception
+
+**Syntax**: `[<type>] <content>_<user_id>`  
+**Program exception:**
+
+-  [WARNING] You can not LIKE yourself\_`<from_user>`!
+-  [WARNING] You only LIKED: [`<user_id>`]'s message ONCE!\_`<from_user>`
+-  [WARNING] You are NOT allowed to send message\_`<from_user>`
+-  [INFO] You LIKED: [`<user_id>`]'s message\_`<from_user>`
 
 ## :page_facing_up: Log
 
