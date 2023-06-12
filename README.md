@@ -1,3 +1,88 @@
+<h1 align="center">
+  <img src="./assets/grpc-icon.png" alt="icon" width="200"></img>
+  <br>
+  <b>README template</b>
+</h1>
+
+<p align="center">Chat application use gRPC to communicate between processes.</p>
+
+<!-- Badges -->
+<p align="center">
+  <a href="https://github.com/HCMUS-Project/ChatGRPC/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/HCMUS-Project/ChatGRPC" alt="contributors" />
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/github/last-commit/HCMUS-Project/ChatGRPC" alt="last update" />
+  </a>
+  <a href="https://github.com/HCMUS-Project/ChatGRPC/network/members">
+    <img src="https://img.shields.io/github/forks/HCMUS-Project/ChatGRPC" alt="forks" />
+  </a>
+  <a href="https://github.com/HCMUS-Project/ChatGRPC/stargazers">
+    <img src="https://img.shields.io/github/stars/HCMUS-Project/ChatGRPC" alt="stars" />
+  </a>
+  <a href="https://github.com/HCMUS-Project/ChatGRPC/issues/">
+    <img src="https://img.shields.io/github/issues/HCMUS-Project/ChatGRPC" alt="open issues" />
+  </a>
+  <a href="https://github.com/HCMUS-Project/ChatGRPC/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/HCMUS-Project/ChatGRPC.svg" alt="license" />
+  </a>
+</p>
+
+<p align="center">
+  <b>
+      <a href="#demo">Demo</a> •
+      <a href="https://github.com/HCMUS-Project/ChatGRPC">Documentation</a> •
+      <a href="https://github.com/HCMUS-Project/ChatGRPC/issues/">Report Bug</a> •
+      <a href="https://github.com/HCMUS-Project/ChatGRPC/issues/">Request Feature</a>
+  </b>
+</p>
+
+<br/>
+
+<details open>
+<summary><b>📖 Table of Contents</b></summary>
+
+-  [Demo](#film_projector-demo)
+-  [Report](#newspaper-report)
+-  [Key Features](#star-key-features)
+-  [Getting Started](#toolbox-getting-started)
+   -  [Prerequisites](#pushpin-prerequisites)
+   -  [How to use gRPC](#mechanical_arm-how-to-use-grpc)
+   -  [Programming design](#pencil-programming-design)
+   -  [Chat Convention](#speech_balloon-chat-convention)
+      -  [LIKE reply](#like-reply)
+      -  [Exception](#exception)
+   -  [Installation](#hammer_and_wrench-installation)
+   -  [Log](#page_facing_up-log)
+      -  [Log file](#log-file)
+      -  [Content](#content)
+-  [Roadmap](#world_map-roadmap)
+-  [Contributors](#busts_in_silhouette-contributors)
+-  [Credits](#sparkles-credits)
+-  [License](#scroll-license)
+
+# :film_projector: Demo
+
+Check out the [**demo video**](https://youtu.be/j3ZhaS5n7hU) to see the app in action.
+
+# :newspaper: Report
+
+Check out the [**Report**](https://docs.google.com/document/d/1XG1qBbMOVZpRwFrU5hV9Z66X6tNGrkkXGsKeIZU_Ns8/edit?usp=sharing) to see full report.
+
+# :star: Key Features
+
+-  Template - professional README, [Release](./Release.md) templates
+-  Theme - nice theme for README
+
+# :toolbox: Getting Started
+
+## :pushpin: Prerequisites
+
+-  **Python:** `>= 3.10.7`
+-  **gRPC tools:** gRPC compiler, Install [here](https://grpc.io/docs/languages/python/quickstart/).
+
+## :mechanical_arm: How to use gRPC
+
 **1**. **Define your gRPC service** using protocol buffers. This will define the messages and methods used for communication.
 
 1. Define your service in a .proto file using protocol buffer syntax. (`chat.proto` in `/service`)
@@ -57,9 +142,7 @@
 
 6. Use gRPC's built-in functionality to handle the communication between the server and client processes.
 
-## Require
-
-### Programming design
+## :pencil: Programming design
 
 > Follow way 1: _"Dùng 1 server chung, mỗi tiến trình người dùng gửi msg vềserverrồi server broadcast lại msg nàycho tất cảngười dùng còn lại"_
 >
@@ -67,7 +150,7 @@
 
 You can find this reference here: https://grpc.io/docs/what-is-grpc/introduction/
 
-## Convention
+## :speech_balloon: Chat Convention
 
 ### LIKE reply
 
@@ -91,8 +174,107 @@ You can find this reference here: https://grpc.io/docs/what-is-grpc/introduction
 -  [WARNING] You are NOT allowed to send message\_`<from_user>`
 -  [INFO] You LIKED: [`<user_id>`]'s message\_`<from_user>`
 
-## Log
+## :hammer_and_wrench: Installation
 
-### Client
+Install application
 
-### Server
+```bash
+# Clone this repository
+git clone https://github.com/HCMUS-Project/ChatGRPC.git
+
+# Go into the repository
+cd ChatGRPC
+```
+
+Run server
+
+```bash
+python server.py
+```
+
+Run client (open new terminal)
+
+```bash
+python client.py
+```
+
+> **Note**
+> If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
+
+## :page_facing_up: Log
+
+### Log file
+
+Syntax: `[<time>] <content>`
+
+```log
+<!-- logfile.log exapmle  -->
+[15:47:47] Quan join group chat - ID(01)
+[15:47:54] User[01] send message 'hello'
+[15:47:54] User[01] is BLOCKED to send message
+[15:48:08] User[01] is not allow to send message
+[15:48:15] Van join group chat - ID(02)
+[15:48:20] Lien join group chat - ID(03)
+[15:48:23] Hao join group chat - ID(04)
+[15:48:29] Dat join group chat - ID(05)
+[15:48:35] User[05] send message 'hello'
+[15:48:35] User[05] is BLOCKED to send message
+[15:48:42] User[04] send message 'chao moi nguoi'
+[15:48:42] User[04] is BLOCKED to send message
+[15:48:51] User[03] send message 'alo alo'
+[15:48:51] User[03] is BLOCKED to send message
+[15:49:03] User[03] like for User[01]
+[15:49:15] User[03] like for User[01]
+[15:49:28] User[03] like for User[03]
+[15:49:36] User[04] like for User[01]
+[15:49:36] User[01] is ALLOWED to send message
+[15:49:56] User[01] send message 'hi , i am free'
+[15:49:56] User[01] is BLOCKED to send message
+[15:50:00] User[01] is not allow to send message
+```
+
+### Content
+
+-  Client connect and enter username:  
+   `<username> join group chat - ID(<user_id>)`
+-  Client send msg success:  
+   `User[<user_id>] send message ‘<message>`
+-  Client A like client B's msg:  
+   `User[<userA_id>] like for User[<userB_id>]`
+-  Client being block send msg but still try sending msg:  
+   `User[<user_id>] is not allow to send message`
+-  Client has been blocked from sending messages:  
+   `User[<user_id>] is BLOCKED to send message`
+-  The client is allowed to send messages:  
+   `User[<user_id>] is ALLOWED to send message`
+
+# :world_map: Roadmap
+
+-  [x] Complete the server
+-  [x] Complete the client
+-  [x] Log file
+-  [x] Report
+
+# :busts_in_silhouette: Contributors
+
+<a href="https://github.com/HCMUS-Project/ChatGRPC/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=HCMUS-Project/ChatGRPC" />
+</a>
+
+Contributions are always welcome!
+
+# :sparkles: Credits
+
+This software uses the following open source packages:
+
+-  [gRPC](https://grpc.io/)
+-  Emojis are taken from [here](https://github.com/arvida/emoji-cheat-sheet.com)
+
+# :scroll: License
+
+Distributed under the MIT License. See <a href="./LICENSE">`LICENSE`</a> for more information.
+
+---
+
+> Bento [@quanblue](https://bento.me/quanblue) &nbsp;&middot;&nbsp;
+> GitHub [@QuanBlue](https://github.com/QuanBlue) &nbsp;&middot;&nbsp; Gmail quannguyenthanh558@gmail.com
